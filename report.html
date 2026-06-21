@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MovieLens Recommender System Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 20px; }
+        h2 { color: #34495e; margin-top: 40px; border-left: 4px solid #3498db; padding-left: 15px; }
+        h3 { color: #7f8c8d; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #3498db; color: white; }
+        tr:hover { background: #f5f5f5; }
+        .metric-box { display: inline-block; background: #3498db; color: white; padding: 20px 40px; margin: 10px; border-radius: 10px; text-align: center; }
+        .metric-box h3 { color: white; margin: 0; font-size: 2em; }
+        .metric-box p { margin: 5px 0 0 0; }
+        .model-card { background: #ecf0f1; padding: 20px; margin: 15px 0; border-radius: 8px; border-left: 4px solid #2ecc71; }
+        .highlight { background: #ffffcc; padding: 2px 5px; }
+        img { max-width: 100%; height: auto; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .footer { text-align: center; margin-top: 50px; color: #7f8c8d; border-top: 1px solid #ddd; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MovieLens Recommender System</h1>
+        <p style="text-align: center; color: #7f8c8d;">A Comprehensive Movie Recommendation Engine</p>
+
+        <h2>Dataset Overview</h2>
+        <div style="text-align: center;">
+            <div class="metric-box">
+                <h3>1,000,209</h3>
+                <p>Total Ratings</p>
+            </div>
+            <div class="metric-box">
+                <h3>6,040</h3>
+                <p>Users</p>
+            </div>
+            <div class="metric-box">
+                <h3>3,883</h3>
+                <p>Movies</p>
+            </div>
+            <div class="metric-box">
+                <h3>18</h3>
+                <p>Genres</p>
+            </div>
+        </div>
+
+        <h2>Models Implemented</h2>
+
+        <div class="model-card">
+            <h3>1. Popularity-Based Recommender</h3>
+            <p>Uses weighted rating formula (IMDB-style) combining average rating and vote count. Best for new users facing the cold-start problem.</p>
+        </div>
+
+        <div class="model-card">
+            <h3>2. User-Based Collaborative Filtering</h3>
+            <p>Finds similar users using cosine similarity and recommends movies they enjoyed. Matrix size: 4,297 x 4,297 users.</p>
+        </div>
+
+        <div class="model-card">
+            <h3>3. Item-Based Collaborative Filtering</h3>
+            <p>Computes movie-movie similarity based on rating patterns. More stable than user-based approach. Matrix size: 2,514 x 2,514 movies.</p>
+        </div>
+
+        <div class="model-card">
+            <h3>4. Matrix Factorization (SVD)</h3>
+            <p>Decomposes user-item matrix into latent factors (50 dimensions) to discover hidden patterns in viewing preferences.</p>
+        </div>
+
+        <div class="model-card">
+            <h3>5. Content-Based Filtering</h3>
+            <p>Recommends movies based on genre similarity using one-hot encoding and cosine similarity across 18 genres.</p>
+        </div>
+
+        <div class="model-card">
+            <h3>6. Hybrid Recommender</h3>
+            <p>Combines popularity (30%), content-based (40%), and collaborative filtering (30%) for robust recommendations.</p>
+        </div>
+
+        <h2>Model Evaluation</h2>
+        <table>
+            <tr><th>Model</th><th>RMSE</th><th>MAE</th></tr>
+            <tr><td>Global Mean Baseline</td><td>1.1131</td><td>0.9304</td></tr>
+            <tr><td>User Mean</td><td>1.0320</td><td>0.8264</td></tr>
+            <tr><td>Movie Mean</td><td class="highlight">0.9764</td><td class="highlight">0.7804</td></tr>
+        </table>
+        <p><strong>Best Performing:</strong> Movie Mean baseline with RMSE of 0.976</p>
+
+        <h2>Top Recommended Movies</h2>
+        <table>
+            <tr><th>Rank</th><th>Movie</th><th>Avg Rating</th><th>Votes</th></tr>
+            <tr><td>1</td><td>Shawshank Redemption (1994)</td><td>4.55</td><td>1,990</td></tr>
+            <tr><td>2</td><td>Godfather, The (1972)</td><td>4.52</td><td>1,914</td></tr>
+            <tr><td>3</td><td>Star Wars: Episode IV (1977)</td><td>4.47</td><td>2,585</td></tr>
+            <tr><td>4</td><td>Schindler's List (1993)</td><td>4.51</td><td>2,016</td></tr>
+            <tr><td>5</td><td>Raiders of the Lost Ark (1981)</td><td>4.48</td><td>2,219</td></tr>
+        </table>
+
+        <h2>Key Insights</h2>
+        <ul>
+            <li><strong>Rating 4 is most common</strong> (34.9%) - Users tend to rate positively</li>
+            <li><strong>91.46% matrix sparsity</strong> - Most users haven't rated most movies</li>
+            <li><strong>Drama & Comedy</strong> are the most common genres</li>
+            <li><strong>Film-Noir</strong> has highest average rating; Horror has lowest</li>
+            <li><strong>Peak activity</strong> was around 2000-2001</li>
+        </ul>
+
+        <h2>Technologies Used</h2>
+        <p>Python 3, Pandas, NumPy, Scikit-learn, SciPy, Matplotlib, Seaborn</p>
+
+        <div class="footer">
+            <p><strong>Author:</strong> Nirmmal | <strong>Date:</strong> November 2025</p>
+            <p>MovieLens Recommender System Project</p>
+        </div>
+    </div>
+</body>
+</html>
